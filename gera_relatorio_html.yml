@@ -1,0 +1,12 @@
+- name: Consolidar e gerar HTML dos dados
+  hosts: localhost
+  gather_facts: no
+
+  vars:
+    servidores: "{{ lookup('fileglob', 'dados/*.json', wantlist=True) | map('file') | map('from_json') | list }}"
+
+  tasks:
+    - name: Gerar arquivo HTML consolidado
+      template:
+        src: "../roles/coleta_info/templates/relatorio.html.j2"
+        dest: "dados/relatorio_final.html"
