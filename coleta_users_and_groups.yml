@@ -1,0 +1,26 @@
+- name: Coletar usuários e grupos ativos
+  hosts: linux
+  gather_facts: no
+  become: yes
+
+  tasks:
+    - name: Coletar usuários não padrão
+      shell: |
+        getent passwd | awk -F: '$3 >= 1000 && $1 != "nobody" {print $1}'
+      register: usuarios
+
+    - name: Coletar grupos não padrão
+      shell: |
+        getent group | awk -F: '$3 >= 1000 && $1 != "nobody" {print $1}'
+      register: grupos
+
+    - name: Salvar resultado localmente
+      local_action:
+        module: copy
+        content: |
+          {
+            "servidor": "{{ inventory_hostname }}",
+            "usuarios": {{ usuarios.stdout_lines | to_json }},
+            "grupos": {{ grupos.stdout_lines | to_json }}
+          }
+        dest: "dados/{{ inventory_hostname }}.json"
