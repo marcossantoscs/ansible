@@ -22,7 +22,8 @@ ansible-project/
 ```
 
 ## Sugestão, comando para criar a estrutura acima
-```mkdir -p ansible_colects/{playbooks,roles/coleta_info/{tasks,templates},inventario,dados} && \
+```
+mkdir -p ansible_colects/{playbooks,roles/coleta_info/{tasks,templates},inventario,dados} && \
 touch ansible_colects/playbooks/{coleta_usuarios_grupos.yml,gera_relatorio_html.yml} && \
 touch ansible_colects/roles/coleta_info/tasks/main.yml && \
 touch ansible_colects/roles/coleta_info/templates/relatorio.html.j2 && \
